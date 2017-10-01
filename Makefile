@@ -11,7 +11,7 @@ libaldl.o: src/libaldl.c
 
 libaldl.so: libaldl.o
 	@echo + linking libaldl
-	$(V)$(CC) $(CFLAGS) -shared -o $@ libaldl.o
+	$(V)$(CC) $(CFLAGS) -shared -lftdi -o $@ libaldl.o
 
 clean:
 	@echo + clean
