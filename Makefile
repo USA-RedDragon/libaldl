@@ -13,6 +13,10 @@ libaldl.so: libaldl.o
 	@echo + linking libaldl
 	$(V)$(CC) $(CFLAGS) -shared -lftdi -o $@ libaldl.o
 
+C1500:  libaldl.so example/C1500.c
+	@echo + cc example/C1500.c
+	$(V)$(CC) $(CFLAGS) -L.. -laldl -o $@ example/C1500.c
+
 clean:
 	@echo + clean
 	$(V)rm -rf *.o libaldl.so
