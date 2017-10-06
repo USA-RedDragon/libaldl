@@ -16,7 +16,6 @@ int aldl_ftdi_connect(int vendor, int device) {
 
 	if((ret = ftdi_usb_open(ftdi, vendor, device)) < 0) {
 		fprintf(stderr, "unable to open ftdi device: %d (%s)\n", ret, ftdi_get_error_string(ftdi));
-		ftdi_free(ftdi);
 		return -1;
 	}
 
@@ -28,11 +27,19 @@ int aldl_ftdi_connect(int vendor, int device) {
 
 int aldl_send_message(byte* command, int length) {
 	ftdi_usb_purge_buffers(ftdi);
-	ftdi_write_data(ftdi,(unsigned char *)command,bytes);
+	return ftdi_write_data(ftdi, (unsigned char *)command, length);
 }
 
 int aldl_receive_message(byte* buffer, int length) {
 	int response = 0;
 	response = ftdi_read_data(ftdi,(unsigned char *)buffer,length);
 	return response;
+}
+
+void aldl_ftdi_disconnect() {
+	ftdi_free(ftdi);
+}
+
+void aldl_ftdi_flush() {
+	ftdi_usb_purge_buffers(ftdi);
 }
